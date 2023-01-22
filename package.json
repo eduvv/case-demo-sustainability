@@ -9,8 +9,7 @@
     "deploy": "gh-pages -d dist"
   },
   "devDependencies": {
-    "gh-pages": "^5.0.0",
-    "nuxt": "3.0.0"
+    "nuxt": "latest"
   },
   "dependencies": {
     "chart.js": "^4.2.0",
