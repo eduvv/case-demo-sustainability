@@ -1,15 +1,15 @@
 {
-  "node_modules/.pnpm/primeicons@6.0.1/node_modules/primeicons/fonts/primeicons.eot": {
-    "resourceType": "font",
-    "mimeType": "font/eot",
-    "file": "primeicons.ce852338.eot",
-    "src": "node_modules/.pnpm/primeicons@6.0.1/node_modules/primeicons/fonts/primeicons.eot"
-  },
   "node_modules/.pnpm/primevue@3.22.3_primeicons@6.0.1/node_modules/primevue/resources/images/color.png": {
     "resourceType": "image",
     "mimeType": "image/png",
     "file": "color.473bc8ca.png",
     "src": "node_modules/.pnpm/primevue@3.22.3_primeicons@6.0.1/node_modules/primevue/resources/images/color.png"
+  },
+  "node_modules/.pnpm/primeicons@6.0.1/node_modules/primeicons/fonts/primeicons.eot": {
+    "resourceType": "font",
+    "mimeType": "font/eot",
+    "file": "primeicons.ce852338.eot",
+    "src": "node_modules/.pnpm/primeicons@6.0.1/node_modules/primeicons/fonts/primeicons.eot"
   },
   "node_modules/.pnpm/primeicons@6.0.1/node_modules/primeicons/fonts/primeicons.woff2": {
     "resourceType": "font",
@@ -38,7 +38,7 @@
   "node_modules/.pnpm/nuxt@3.0.0/node_modules/nuxt/dist/app/entry.mjs": {
     "resourceType": "script",
     "module": true,
-    "file": "entry.e2170851.js",
+    "file": "entry.e44f5cc8.js",
     "src": "node_modules/.pnpm/nuxt@3.0.0/node_modules/nuxt/dist/app/entry.mjs",
     "isEntry": true,
     "dynamicImports": [
@@ -94,7 +94,7 @@
   "virtual:nuxt:/Users/edward/projects/digitmint/demo/demo/.nuxt/error-component.mjs": {
     "resourceType": "script",
     "module": true,
-    "file": "error-component.c7694efe.js",
+    "file": "error-component.427aadfa.js",
     "src": "virtual:nuxt:/Users/edward/projects/digitmint/demo/demo/.nuxt/error-component.mjs",
     "isDynamicEntry": true,
     "imports": [
@@ -115,12 +115,12 @@
   "node_modules/.pnpm/@nuxt+ui-templates@1.1.0/node_modules/@nuxt/ui-templates/dist/templates/error-404.vue": {
     "resourceType": "script",
     "module": true,
-    "file": "error-404.1b3e3a1e.js",
+    "file": "error-404.db6556ad.js",
     "src": "node_modules/.pnpm/@nuxt+ui-templates@1.1.0/node_modules/@nuxt/ui-templates/dist/templates/error-404.vue",
     "isDynamicEntry": true,
     "imports": [
       "node_modules/.pnpm/nuxt@3.0.0/node_modules/nuxt/dist/app/entry.mjs",
-      "__plugin-vue_export-helper.8fcfcd87.js"
+      "__plugin-vue_export-helper.96a7e108.js"
     ],
     "css": [
       "error-404.8ccf2fec.css"
@@ -130,10 +130,10 @@
     "file": "error-404.8ccf2fec.css",
     "resourceType": "style"
   },
-  "__plugin-vue_export-helper.8fcfcd87.js": {
+  "__plugin-vue_export-helper.96a7e108.js": {
     "resourceType": "script",
     "module": true,
-    "file": "_plugin-vue_export-helper.8fcfcd87.js",
+    "file": "_plugin-vue_export-helper.96a7e108.js",
     "imports": [
       "node_modules/.pnpm/nuxt@3.0.0/node_modules/nuxt/dist/app/entry.mjs"
     ]
@@ -141,11 +141,11 @@
   "node_modules/.pnpm/@nuxt+ui-templates@1.1.0/node_modules/@nuxt/ui-templates/dist/templates/error-500.vue": {
     "resourceType": "script",
     "module": true,
-    "file": "error-500.6bdd671d.js",
+    "file": "error-500.fd030480.js",
     "src": "node_modules/.pnpm/@nuxt+ui-templates@1.1.0/node_modules/@nuxt/ui-templates/dist/templates/error-500.vue",
     "isDynamicEntry": true,
     "imports": [
-      "__plugin-vue_export-helper.8fcfcd87.js",
+      "__plugin-vue_export-helper.96a7e108.js",
       "node_modules/.pnpm/nuxt@3.0.0/node_modules/nuxt/dist/app/entry.mjs"
     ],
     "css": [
@@ -156,15 +156,15 @@
     "file": "error-500.42b82e7a.css",
     "resourceType": "style"
   },
-  "node_modules/.pnpm/@nuxt+ui-templates@1.1.0/node_modules/@nuxt/ui-templates/dist/templates/error-500.css": {
-    "resourceType": "style",
-    "file": "error-500.42b82e7a.css",
-    "src": "node_modules/.pnpm/@nuxt+ui-templates@1.1.0/node_modules/@nuxt/ui-templates/dist/templates/error-500.css"
-  },
   "node_modules/.pnpm/@nuxt+ui-templates@1.1.0/node_modules/@nuxt/ui-templates/dist/templates/error-404.css": {
     "resourceType": "style",
     "file": "error-404.8ccf2fec.css",
     "src": "node_modules/.pnpm/@nuxt+ui-templates@1.1.0/node_modules/@nuxt/ui-templates/dist/templates/error-404.css"
+  },
+  "node_modules/.pnpm/@nuxt+ui-templates@1.1.0/node_modules/@nuxt/ui-templates/dist/templates/error-500.css": {
+    "resourceType": "style",
+    "file": "error-500.42b82e7a.css",
+    "src": "node_modules/.pnpm/@nuxt+ui-templates@1.1.0/node_modules/@nuxt/ui-templates/dist/templates/error-500.css"
   },
   "node_modules/.pnpm/nuxt@3.0.0/node_modules/nuxt/dist/app/entry.css": {
     "resourceType": "style",

@@ -1,22 +1,18 @@
-import { createRenderer } from 'vue-bundle-renderer/runtime';
-import { eventHandler, getQuery, createError } from 'h3';
-import { joinURL } from 'ufo';
-import { u as useNitroApp, a as useRuntimeConfig, g as getRouteRules } from '../nitro/node-server.mjs';
-import 'node-fetch-native/polyfill';
-import 'http';
-import 'https';
-import 'destr';
-import 'ofetch';
-import 'unenv/runtime/fetch/index';
-import 'hookable';
-import 'scule';
-import 'ohash';
-import 'unstorage';
-import 'defu';
-import 'radix3';
-import 'node:fs';
-import 'node:url';
-import 'pathe';
+import { createRenderer } from 'file:///Users/edward/projects/digitmint/demo/demo/node_modules/.pnpm/vue-bundle-renderer@1.0.0/node_modules/vue-bundle-renderer/dist/runtime.mjs';
+import { eventHandler, getQuery, createError, appendHeader } from 'file:///Users/edward/projects/digitmint/demo/demo/node_modules/.pnpm/h3@1.0.2/node_modules/h3/dist/index.mjs';
+import { joinURL } from 'file:///Users/edward/projects/digitmint/demo/demo/node_modules/.pnpm/ufo@1.0.1/node_modules/ufo/dist/index.mjs';
+import { u as useNitroApp, a as useRuntimeConfig, g as getRouteRules } from './nitro/nitro-prerenderer.mjs';
+import 'file:///Users/edward/projects/digitmint/demo/demo/node_modules/.pnpm/node-fetch-native@1.0.1/node_modules/node-fetch-native/dist/polyfill.mjs';
+import 'file:///Users/edward/projects/digitmint/demo/demo/node_modules/.pnpm/ofetch@1.0.0/node_modules/ofetch/dist/node.mjs';
+import 'file:///Users/edward/projects/digitmint/demo/demo/node_modules/.pnpm/destr@1.2.2/node_modules/destr/dist/index.mjs';
+import 'file:///Users/edward/projects/digitmint/demo/demo/node_modules/.pnpm/unenv@1.0.1/node_modules/unenv/runtime/fetch/index.mjs';
+import 'file:///Users/edward/projects/digitmint/demo/demo/node_modules/.pnpm/hookable@5.4.2/node_modules/hookable/dist/index.mjs';
+import 'file:///Users/edward/projects/digitmint/demo/demo/node_modules/.pnpm/scule@1.0.0/node_modules/scule/dist/index.mjs';
+import 'file:///Users/edward/projects/digitmint/demo/demo/node_modules/.pnpm/ohash@1.0.0/node_modules/ohash/dist/index.mjs';
+import 'file:///Users/edward/projects/digitmint/demo/demo/node_modules/.pnpm/unstorage@1.0.1/node_modules/unstorage/dist/index.mjs';
+import 'file:///Users/edward/projects/digitmint/demo/demo/node_modules/.pnpm/unstorage@1.0.1/node_modules/unstorage/dist/drivers/fs.mjs';
+import 'file:///Users/edward/projects/digitmint/demo/demo/node_modules/.pnpm/defu@6.1.1/node_modules/defu/dist/defu.mjs';
+import 'file:///Users/edward/projects/digitmint/demo/demo/node_modules/.pnpm/radix3@1.0.0/node_modules/radix3/dist/index.mjs';
 
 function defineRenderHandler(handler) {
   return eventHandler(async (event) => {
@@ -297,8 +293,8 @@ function publicAssetsURL(...path) {
 
 globalThis.__buildAssetsURL = buildAssetsURL;
 globalThis.__publicAssetsURL = publicAssetsURL;
-const getClientManifest = () => import('../app/client.manifest.mjs').then((r) => r.default || r).then((r) => typeof r === "function" ? r() : r);
-const getStaticRenderedHead = () => import('../rollup/_virtual_head-static.mjs').then((r) => r.default || r);
+const getClientManifest = () => import('./app/client.manifest.mjs').then((r) => r.default || r).then((r) => typeof r === "function" ? r() : r);
+const getStaticRenderedHead = () => import('./rollup/_virtual_head-static.mjs').then((r) => r.default || r);
 const getSPARenderer = lazyCachedFunction(async () => {
   const manifest = await getClientManifest();
   const options = {
@@ -328,6 +324,7 @@ const getSPARenderer = lazyCachedFunction(async () => {
     renderToString
   };
 });
+const PAYLOAD_CACHE = /* @__PURE__ */ new Map() ;
 const PAYLOAD_URL_RE = /\/_payload(\.[a-zA-Z0-9]+)?.js(\?.*)?$/;
 const renderer = defineRenderHandler(async (event) => {
   const ssrError = event.node.req.url?.startsWith("/__nuxt_error") ? getQuery(event) : null;
@@ -339,6 +336,9 @@ const renderer = defineRenderHandler(async (event) => {
   if (isRenderingPayload) {
     url = url.substring(0, url.lastIndexOf("/")) || "/";
     event.node.req.url = url;
+    if (PAYLOAD_CACHE.has(url)) {
+      return PAYLOAD_CACHE.get(url);
+    }
   }
   getRouteRules(event);
   const ssrContext = {
@@ -350,6 +350,11 @@ const renderer = defineRenderHandler(async (event) => {
     nuxt: void 0,
     payload: ssrError ? { error: ssrError } : {}
   };
+  const _PAYLOAD_EXTRACTION = !ssrContext.noSSR;
+  const payloadURL = _PAYLOAD_EXTRACTION ? joinURL(useRuntimeConfig().app.baseURL, url, "_payload.js") : void 0;
+  {
+    ssrContext.payload.prerenderedAt = Date.now();
+  }
   const renderer = await getSPARenderer() ;
   const _rendered = await renderer.renderToString(ssrContext).catch((error) => {
     throw !ssrError && ssrContext.payload?.error || error;
@@ -360,7 +365,14 @@ const renderer = defineRenderHandler(async (event) => {
   }
   if (isRenderingPayload) {
     const response2 = renderPayloadResponse(ssrContext);
+    {
+      PAYLOAD_CACHE.set(url, response2);
+    }
     return response2;
+  }
+  if (_PAYLOAD_EXTRACTION) {
+    appendHeader(event, "x-nitro-prerender", joinURL(url, "_payload.js"));
+    PAYLOAD_CACHE.set(url, renderPayloadResponse(ssrContext));
   }
   const renderedMeta = await ssrContext.renderMeta?.() ?? {};
   const inlinedStyles = "";
@@ -368,7 +380,7 @@ const renderer = defineRenderHandler(async (event) => {
     htmlAttrs: normalizeChunks([renderedMeta.htmlAttrs]),
     head: normalizeChunks([
       renderedMeta.headTags,
-      null,
+      _PAYLOAD_EXTRACTION ? `<link rel="modulepreload" href="${payloadURL}">` : null,
       _rendered.renderResourceHints(),
       _rendered.renderStyles(),
       inlinedStyles,
@@ -383,7 +395,7 @@ const renderer = defineRenderHandler(async (event) => {
       _rendered.html
     ],
     bodyAppend: normalizeChunks([
-      `<script>window.__NUXT__=${devalue(ssrContext.payload)}<\/script>`,
+      _PAYLOAD_EXTRACTION ? `<script type="module">import p from "${payloadURL}";window.__NUXT__={...p,...(${devalue(splitPayload(ssrContext).initial)})}<\/script>` : `<script>window.__NUXT__=${devalue(ssrContext.payload)}<\/script>`,
       _rendered.renderScripts(),
       renderedMeta.bodyScripts
     ])

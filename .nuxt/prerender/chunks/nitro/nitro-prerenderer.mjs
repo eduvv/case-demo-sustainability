@@ -1,20 +1,16 @@
-globalThis._importMeta_=globalThis._importMeta_||{url:"file:///_entry.js",env:process.env};import 'node-fetch-native/polyfill';
-import { Server as Server$1 } from 'http';
-import { Server } from 'https';
-import destr from 'destr';
-import { eventHandler, setHeaders, sendRedirect, defineEventHandler, handleCacheHeaders, createEvent, getRequestHeader, getRequestHeaders, setResponseHeader, createError, createApp, createRouter as createRouter$1, lazyEventHandler, toNodeListener } from 'h3';
-import { createFetch as createFetch$1, Headers } from 'ofetch';
-import { createCall, createFetch } from 'unenv/runtime/fetch/index';
-import { createHooks } from 'hookable';
-import { snakeCase } from 'scule';
-import { hash } from 'ohash';
-import { parseURL, withQuery, joinURL, withLeadingSlash, withoutTrailingSlash } from 'ufo';
-import { createStorage } from 'unstorage';
-import defu from 'defu';
-import { toRouteMatcher, createRouter } from 'radix3';
-import { promises } from 'node:fs';
-import { fileURLToPath } from 'node:url';
-import { dirname, resolve } from 'pathe';
+import 'file:///Users/edward/projects/digitmint/demo/demo/node_modules/.pnpm/node-fetch-native@1.0.1/node_modules/node-fetch-native/dist/polyfill.mjs';
+import { eventHandler, setHeaders, sendRedirect, defineEventHandler, handleCacheHeaders, createEvent, getRequestHeader, getRequestHeaders, setResponseHeader, createApp, createRouter as createRouter$1, lazyEventHandler, toNodeListener } from 'file:///Users/edward/projects/digitmint/demo/demo/node_modules/.pnpm/h3@1.0.2/node_modules/h3/dist/index.mjs';
+import { createFetch as createFetch$1, Headers } from 'file:///Users/edward/projects/digitmint/demo/demo/node_modules/.pnpm/ofetch@1.0.0/node_modules/ofetch/dist/node.mjs';
+import destr from 'file:///Users/edward/projects/digitmint/demo/demo/node_modules/.pnpm/destr@1.2.2/node_modules/destr/dist/index.mjs';
+import { createCall, createFetch } from 'file:///Users/edward/projects/digitmint/demo/demo/node_modules/.pnpm/unenv@1.0.1/node_modules/unenv/runtime/fetch/index.mjs';
+import { createHooks } from 'file:///Users/edward/projects/digitmint/demo/demo/node_modules/.pnpm/hookable@5.4.2/node_modules/hookable/dist/index.mjs';
+import { snakeCase } from 'file:///Users/edward/projects/digitmint/demo/demo/node_modules/.pnpm/scule@1.0.0/node_modules/scule/dist/index.mjs';
+import { hash } from 'file:///Users/edward/projects/digitmint/demo/demo/node_modules/.pnpm/ohash@1.0.0/node_modules/ohash/dist/index.mjs';
+import { parseURL, withQuery, joinURL } from 'file:///Users/edward/projects/digitmint/demo/demo/node_modules/.pnpm/ufo@1.0.1/node_modules/ufo/dist/index.mjs';
+import { createStorage } from 'file:///Users/edward/projects/digitmint/demo/demo/node_modules/.pnpm/unstorage@1.0.1/node_modules/unstorage/dist/index.mjs';
+import unstorage_47drivers_47fs from 'file:///Users/edward/projects/digitmint/demo/demo/node_modules/.pnpm/unstorage@1.0.1/node_modules/unstorage/dist/drivers/fs.mjs';
+import defu from 'file:///Users/edward/projects/digitmint/demo/demo/node_modules/.pnpm/defu@6.1.1/node_modules/defu/dist/defu.mjs';
+import { toRouteMatcher, createRouter } from 'file:///Users/edward/projects/digitmint/demo/demo/node_modules/.pnpm/radix3@1.0.0/node_modules/radix3/dist/index.mjs';
 
 const _runtimeConfig = {"app":{"baseURL":"/","buildAssetsDir":"/_nuxt/","cdnURL":""},"nitro":{"routeRules":{"/__nuxt_error":{"cache":false}},"envPrefix":"NUXT_"},"public":{}};
 const ENV_PREFIX = "NITRO_";
@@ -73,40 +69,24 @@ const timingMiddleware = eventHandler((event) => {
   }.bind(event.res);
 });
 
-const _assets = {
+const serverAssets = [{"baseName":"server","dir":"/Users/edward/projects/digitmint/demo/demo/server/assets"}];
 
-};
+const assets = createStorage();
 
-function normalizeKey(key) {
-  if (!key) {
-    return "";
-  }
-  return key.replace(/[/\\]/g, ":").replace(/:+/g, ":").replace(/^:|:$/g, "");
+for (const asset of serverAssets) {
+  assets.mount(asset.baseName, unstorage_47drivers_47fs({ base: asset.dir }));
 }
-
-const assets$1 = {
-  getKeys() {
-    return Promise.resolve(Object.keys(_assets))
-  },
-  hasItem (id) {
-    id = normalizeKey(id);
-    return Promise.resolve(id in _assets)
-  },
-  getItem (id) {
-    id = normalizeKey(id);
-    return Promise.resolve(_assets[id] ? _assets[id].import() : null)
-  },
-  getMeta (id) {
-    id = normalizeKey(id);
-    return Promise.resolve(_assets[id] ? _assets[id].meta : {})
-  }
-};
 
 const storage = createStorage({});
 
 const useStorage = () => storage;
 
-storage.mount('/assets', assets$1);
+storage.mount('/assets', assets);
+
+storage.mount('root', unstorage_47drivers_47fs({"driver":"fs","base":"/Users/edward/projects/digitmint/demo/demo","ignore":["**/node_modules/**","**/.git/**"]}));
+storage.mount('src', unstorage_47drivers_47fs({"driver":"fs","base":"/Users/edward/projects/digitmint/demo/demo/server","ignore":["**/node_modules/**","**/.git/**"]}));
+storage.mount('build', unstorage_47drivers_47fs({"driver":"fs","base":"/Users/edward/projects/digitmint/demo/demo/.nuxt","ignore":["**/node_modules/**","**/.git/**"]}));
+storage.mount('cache', unstorage_47drivers_47fs({"driver":"fs","base":"/Users/edward/projects/digitmint/demo/demo/.nuxt/cache","ignore":["**/node_modules/**","**/.git/**"]}));
 
 const config = useRuntimeConfig();
 const _routeRulesMatcher = toRouteMatcher(createRouter({ routes: config.nitro.routeRules }));
@@ -430,204 +410,9 @@ const errorHandler = (async function errorhandler(error, event) {
   event.node.res.end(await res.text());
 });
 
-const assets = {
-  "/_nuxt/_plugin-vue_export-helper.8fcfcd87.js": {
-    "type": "application/javascript",
-    "etag": "\"b3-VeCSF590zGRzp0l9KzAuNuLQ4ms\"",
-    "mtime": "2023-01-22T18:46:11.004Z",
-    "size": 179,
-    "path": "../public/_nuxt/_plugin-vue_export-helper.8fcfcd87.js"
-  },
-  "/_nuxt/auto.4a0ae717.js": {
-    "type": "application/javascript",
-    "etag": "\"3189f-qW2CQ/z2wj0tITxvGpdeNNPcBa4\"",
-    "mtime": "2023-01-22T18:46:11.004Z",
-    "size": 202911,
-    "path": "../public/_nuxt/auto.4a0ae717.js"
-  },
-  "/_nuxt/color.473bc8ca.png": {
-    "type": "image/png",
-    "etag": "\"2873-/0xLyyIHiRspL1RO202p0t9dRc8\"",
-    "mtime": "2023-01-22T18:46:11.003Z",
-    "size": 10355,
-    "path": "../public/_nuxt/color.473bc8ca.png"
-  },
-  "/_nuxt/entry.04719d74.css": {
-    "type": "text/css; charset=utf-8",
-    "etag": "\"79a4b-fsrDcGuy4jktX+ZU4Nl9u7N941A\"",
-    "mtime": "2023-01-22T18:46:11.002Z",
-    "size": 498251,
-    "path": "../public/_nuxt/entry.04719d74.css"
-  },
-  "/_nuxt/entry.e2170851.js": {
-    "type": "application/javascript",
-    "etag": "\"50674-1AzIYxWavBZjHrMjKxja+uaQIe4\"",
-    "mtime": "2023-01-22T18:46:11.001Z",
-    "size": 329332,
-    "path": "../public/_nuxt/entry.e2170851.js"
-  },
-  "/_nuxt/error-404.1b3e3a1e.js": {
-    "type": "application/javascript",
-    "etag": "\"8dd-H76jCIu1IpHTvvtcQJe8xrWuFV8\"",
-    "mtime": "2023-01-22T18:46:10.999Z",
-    "size": 2269,
-    "path": "../public/_nuxt/error-404.1b3e3a1e.js"
-  },
-  "/_nuxt/error-404.8ccf2fec.css": {
-    "type": "text/css; charset=utf-8",
-    "etag": "\"e2e-68eKZYx67s9CKnFHWVX/8c82buY\"",
-    "mtime": "2023-01-22T18:46:10.999Z",
-    "size": 3630,
-    "path": "../public/_nuxt/error-404.8ccf2fec.css"
-  },
-  "/_nuxt/error-500.42b82e7a.css": {
-    "type": "text/css; charset=utf-8",
-    "etag": "\"79e-jt/pmAC9IZJecj9LqnPml6NZ4oA\"",
-    "mtime": "2023-01-22T18:46:10.998Z",
-    "size": 1950,
-    "path": "../public/_nuxt/error-500.42b82e7a.css"
-  },
-  "/_nuxt/error-500.6bdd671d.js": {
-    "type": "application/javascript",
-    "etag": "\"78b-WCEd9TELnnmGXpNHBmxTpOK05f0\"",
-    "mtime": "2023-01-22T18:46:10.998Z",
-    "size": 1931,
-    "path": "../public/_nuxt/error-500.6bdd671d.js"
-  },
-  "/_nuxt/error-component.c7694efe.js": {
-    "type": "application/javascript",
-    "etag": "\"4c9-ilI8BinQjYsPY+ac22iefL7Njbo\"",
-    "mtime": "2023-01-22T18:46:10.997Z",
-    "size": 1225,
-    "path": "../public/_nuxt/error-component.c7694efe.js"
-  },
-  "/_nuxt/primeicons.131bc3bf.ttf": {
-    "type": "font/ttf",
-    "etag": "\"11a0c-zutG1ZT95cxQfN+LcOOOeP5HZTw\"",
-    "mtime": "2023-01-22T18:46:10.997Z",
-    "size": 72204,
-    "path": "../public/_nuxt/primeicons.131bc3bf.ttf"
-  },
-  "/_nuxt/primeicons.3824be50.woff2": {
-    "type": "font/woff2",
-    "etag": "\"75e4-VaSypfAuNiQF2Nh0kDrwtfamwV0\"",
-    "mtime": "2023-01-22T18:46:10.996Z",
-    "size": 30180,
-    "path": "../public/_nuxt/primeicons.3824be50.woff2"
-  },
-  "/_nuxt/primeicons.5e10f102.svg": {
-    "type": "image/svg+xml",
-    "etag": "\"4727e-0zMqRSQrj27b8/PHF2ooDn7c2WE\"",
-    "mtime": "2023-01-22T18:46:10.995Z",
-    "size": 291454,
-    "path": "../public/_nuxt/primeicons.5e10f102.svg"
-  },
-  "/_nuxt/primeicons.90a58d3a.woff": {
-    "type": "font/woff",
-    "etag": "\"11a58-sWSLUL4TNQ/ei12ab+eDVN3MQ+Q\"",
-    "mtime": "2023-01-22T18:46:10.994Z",
-    "size": 72280,
-    "path": "../public/_nuxt/primeicons.90a58d3a.woff"
-  },
-  "/_nuxt/primeicons.ce852338.eot": {
-    "type": "application/vnd.ms-fontobject",
-    "etag": "\"11abc-5N8jVcQFzTiq2jbtqQFagQ/quUw\"",
-    "mtime": "2023-01-22T18:46:10.993Z",
-    "size": 72380,
-    "path": "../public/_nuxt/primeicons.ce852338.eot"
-  }
-};
-
-function readAsset (id) {
-  const serverDir = dirname(fileURLToPath(globalThis._importMeta_.url));
-  return promises.readFile(resolve(serverDir, assets[id].path))
-}
-
-const publicAssetBases = [];
-
-function isPublicAssetURL(id = '') {
-  if (assets[id]) {
-    return true
-  }
-  for (const base of publicAssetBases) {
-    if (id.startsWith(base)) { return true }
-  }
-  return false
-}
-
-function getAsset (id) {
-  return assets[id]
-}
-
-const METHODS = ["HEAD", "GET"];
-const EncodingMap = { gzip: ".gz", br: ".br" };
-const _f4b49z = eventHandler((event) => {
-  if (event.req.method && !METHODS.includes(event.req.method)) {
-    return;
-  }
-  let id = decodeURIComponent(withLeadingSlash(withoutTrailingSlash(parseURL(event.req.url).pathname)));
-  let asset;
-  const encodingHeader = String(event.req.headers["accept-encoding"] || "");
-  const encodings = encodingHeader.split(",").map((e) => EncodingMap[e.trim()]).filter(Boolean).sort().concat([""]);
-  if (encodings.length > 1) {
-    event.res.setHeader("Vary", "Accept-Encoding");
-  }
-  for (const encoding of encodings) {
-    for (const _id of [id + encoding, joinURL(id, "index.html" + encoding)]) {
-      const _asset = getAsset(_id);
-      if (_asset) {
-        asset = _asset;
-        id = _id;
-        break;
-      }
-    }
-  }
-  if (!asset) {
-    if (isPublicAssetURL(id)) {
-      throw createError({
-        statusMessage: "Cannot find static asset " + id,
-        statusCode: 404
-      });
-    }
-    return;
-  }
-  const ifNotMatch = event.req.headers["if-none-match"] === asset.etag;
-  if (ifNotMatch) {
-    event.res.statusCode = 304;
-    event.res.end();
-    return;
-  }
-  const ifModifiedSinceH = event.req.headers["if-modified-since"];
-  if (ifModifiedSinceH && asset.mtime) {
-    if (new Date(ifModifiedSinceH) >= new Date(asset.mtime)) {
-      event.res.statusCode = 304;
-      event.res.end();
-      return;
-    }
-  }
-  if (asset.type && !event.res.getHeader("Content-Type")) {
-    event.res.setHeader("Content-Type", asset.type);
-  }
-  if (asset.etag && !event.res.getHeader("ETag")) {
-    event.res.setHeader("ETag", asset.etag);
-  }
-  if (asset.mtime && !event.res.getHeader("Last-Modified")) {
-    event.res.setHeader("Last-Modified", asset.mtime);
-  }
-  if (asset.encoding && !event.res.getHeader("Content-Encoding")) {
-    event.res.setHeader("Content-Encoding", asset.encoding);
-  }
-  if (asset.size && !event.res.getHeader("Content-Length")) {
-    event.res.setHeader("Content-Length", asset.size);
-  }
-  return readAsset(id);
-});
-
-const _lazy_VMVdyF = () => import('../handlers/renderer.mjs');
+const _lazy_VMVdyF = () => import('../renderer.mjs');
 
 const handlers = [
-  { route: '', handler: _f4b49z, lazy: false, middleware: true, method: undefined },
-  { route: '/__nuxt_error', handler: _lazy_VMVdyF, lazy: true, middleware: false, method: undefined },
   { route: '/**', handler: _lazy_VMVdyF, lazy: true, middleware: false, method: undefined }
 ];
 
@@ -677,27 +462,11 @@ function createNitroApp() {
 const nitroApp = createNitroApp();
 const useNitroApp = () => nitroApp;
 
-const cert = process.env.NITRO_SSL_CERT;
-const key = process.env.NITRO_SSL_KEY;
-const server = cert && key ? new Server({ key, cert }, toNodeListener(nitroApp.h3App)) : new Server$1(toNodeListener(nitroApp.h3App));
-const port = destr(process.env.NITRO_PORT || process.env.PORT) || 3e3;
-const host = process.env.NITRO_HOST || process.env.HOST;
-const s = server.listen(port, host, (err) => {
-  if (err) {
-    console.error(err);
-    process.exit(1);
-  }
-  const protocol = cert && key ? "https" : "http";
-  const i = s.address();
-  const baseURL = (useRuntimeConfig().app.baseURL || "").replace(/\/$/, "");
-  const url = `${protocol}://${i.family === "IPv6" ? `[${i.address}]` : i.address}:${i.port}${baseURL}`;
-  console.log(`Listening ${url}`);
-});
+const localFetch = nitroApp.localFetch;
 {
   process.on("unhandledRejection", (err) => console.error("[nitro] [dev] [unhandledRejection] " + err));
   process.on("uncaughtException", (err) => console.error("[nitro] [dev] [uncaughtException] " + err));
 }
-const nodeServer = {};
 
-export { useRuntimeConfig as a, getRouteRules as g, nodeServer as n, useNitroApp as u };
-//# sourceMappingURL=node-server.mjs.map
+export { useRuntimeConfig as a, getRouteRules as g, localFetch as l, useNitroApp as u };
+//# sourceMappingURL=nitro-prerenderer.mjs.map
