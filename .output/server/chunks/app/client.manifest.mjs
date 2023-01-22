@@ -1,4 +1,4 @@
-export default {
+const client_manifest = {
   "node_modules/.pnpm/primeicons@6.0.1/node_modules/primeicons/fonts/primeicons.eot": {
     "resourceType": "font",
     "mimeType": "font/eot",
@@ -171,4 +171,7 @@ export default {
     "file": "entry.04719d74.css",
     "src": "node_modules/.pnpm/nuxt@3.0.0/node_modules/nuxt/dist/app/entry.css"
   }
-}
+};
+
+export { client_manifest as default };
+//# sourceMappingURL=client.manifest.mjs.map
